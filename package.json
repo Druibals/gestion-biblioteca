@@ -1,0 +1,29 @@
+{
+  "name": "gestion-biblioteca",
+  "version": "1.0.0",
+  "description": "Sistema de gestión de biblioteca para administrar libros, autores, usuarios y préstamos.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Druibals/gestion-biblioteca.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Druibals/gestion-biblioteca/issues"
+  },
+  "homepage": "https://github.com/Druibals/gestion-biblioteca#readme",
+  "dependencies": {
+    "dotenv": "^17.2.4",
+    "express": "^5.2.1",
+    "pg": "^8.18.0"
+  }
+}
