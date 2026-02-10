@@ -26,14 +26,30 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Definir endpoint de salud
 app.get('/api/health', async (req, res) => {
-    // const result = await db.query('SELECT 1');
-    // res.json(result.rows);
     try {
         const result = await db.query('SELECT 1');
         res.json(result.rows);
     }
     catch (error) {
         return res.status(500).json({ error: 'Database connection failed' });
+    }
+});
+
+app.get('/api/loans/not-returned', async (req, res) => {
+    try {
+        const result = await db.query(`SELECT b.title, c.copy_code, u.email, l.loan_date, li.due_date, (CURRENT_DATE > li.due_date) AS overdue
+FROM copies c
+JOIN books b ON b.book_id = c.book_id
+JOIN loan_items li ON li.copy_id = c.copy_id
+JOIN loans l ON l.loan_id = li.loan_id
+JOIN users u ON u.user_id = l.user_id
+WHERE li.return_date IS NULL
+ORDER BY b.title, c.copy_code;
+`);
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Database query error:', error); 
+        return res.status(500).json({ error: 'Database query failed' });
     }
 });
 
