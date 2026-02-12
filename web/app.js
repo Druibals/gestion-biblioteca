@@ -35,6 +35,8 @@ app.get('/api/health', async (req, res) => {
     }
 });
 
+// Definir endpoint para obtener préstamos no devueltos
+
 app.get('/api/loans/not-returned', async (req, res) => {
     try {
         const result = await db.query(`SELECT b.title, c.copy_code, u.email, l.loan_date, li.due_date, (CURRENT_DATE > li.due_date) AS overdue
@@ -48,7 +50,23 @@ ORDER BY b.title, c.copy_code;
 `);
         res.json(result.rows);
     } catch (error) {
-        console.error('Database query error:', error); 
+        console.error('Database query error: ', error); 
+        return res.status(500).json({ error: 'Database query failed' });
+    }
+});
+
+// Definir endpoint para obtener los autores con más libros publicados
+app.get('/api/authors/top', async (req, res) => {
+    try {
+        const result = await db.query(`SELECT a.name, COUNT(b.book_id) AS num_books
+FROM authors a
+JOIN books b ON b.author_id = a.author_id
+GROUP BY a.author_id, a.name
+ORDER BY num_books DESC;
+`);
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Database query error: ', error);
         return res.status(500).json({ error: 'Database query failed' });
     }
 });
