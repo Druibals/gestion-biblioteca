@@ -6,6 +6,7 @@ app.js - Punto de entrada de la aplicación
 - Crea una instancia de Express y define el puerto de escucha
 - Configura Express para servir archivos estáticos desde la carpeta 'public'
 - Define un endpoint de salud para verificar la conexión a la base de datos
+- Define los endpoints base para obtener préstamos no devueltos, los autores con más libros publicados y el historial de préstamos realizados
 - Inicia el servidor y escucha en el puerto definido. Si la conexión es exitosa, muestra un mensaje en la consola indicando el puerto en el que se está ejecutando el sevidor.
 */
 
@@ -63,6 +64,24 @@ FROM authors a
 JOIN books b ON b.author_id = a.author_id
 GROUP BY a.author_id, a.name
 ORDER BY num_books DESC;
+`);
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Database query error: ', error);
+        return res.status(500).json({ error: 'Database query failed' });
+    }
+});
+
+// Definir endpoint para obtener el historial de todos los préstamos realizados
+app.get('/api/loans', async (req, res) => {
+    try { 
+        const result = await db.query(`SELECT u.email, b.title, c.copy_code, l.loan_date, li.due_date, li.return_date
+FROM users u
+JOIN loans l ON l.user_id = u.user_id
+JOIN loan_items li ON li.loan_id = l.loan_id
+JOIN copies c ON c.copy_id = li.copy_id
+JOIN books b ON b.book_id = c.book_id
+ORDER BY u.email, l.loan_date;
 `);
         res.json(result.rows);
     } catch (error) {
