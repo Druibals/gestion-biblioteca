@@ -14,6 +14,10 @@ app.js - Punto de entrada de la aplicación
 // Cargar variables de entorno desde .env
 require('dotenv').config();
 
+// nodemon: Prueba de reinicio automático del servidor al detectar cambios en el entry point.
+const BOOT_ID = Date.now();
+console.log(`[boot] BOOT_ID=${BOOT_ID}`);
+
 // Importar Express y módulo de base de datos
 const express = require('express');
 const db = require('./db');
@@ -60,7 +64,7 @@ app.get('/api/loans', async (req, res) => {
 app.get('/api/loans/not-returned', async (req, res) => {
     try {
         const result = await db.query(queries.LOANS_NOT_RETURNED);
-res.json(result.rows);
+        res.json(result.rows);
     } catch (error) {
         console.error('Database query error: ', error); 
         return res.status(500).json({ error: 'Database query failed' });
@@ -77,6 +81,10 @@ app.get('/api/authors/top', async (req, res) => {
         console.error('Database query error: ', error);
         return res.status(500).json({ error: 'Database query failed' });
     }
+});
+
+app.get('/api/ping', (req,res) => {
+    res.json({ ok: true, boot: BOOT_ID });
 });
 
 // Iniciar el servidor y escuchar en el puerto definido.
