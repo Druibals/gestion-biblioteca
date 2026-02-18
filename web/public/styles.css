@@ -1,0 +1,84 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    padding: 1.5rem;
+    min-height: 100dvh;
+}
+
+#output {
+    margin-top: 1.5rem;
+    max-width: 100%;
+}
+
+#output[data-state="table"] {
+    padding: 1rem 2.5rem 1rem 2.5rem;
+    overflow-x: auto;
+}
+
+#output[data-state="empty"],
+#output[data-state="error"],
+#output[data-state="loading"] {
+    padding: 1.25rem;
+    text-align: center;
+}
+h1 {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+
+.btnContainer {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    padding: 1rem;
+    max-width: fit-content;
+    margin: 0 auto;
+}
+
+.btnQuery {
+    padding: .75rem 1.25rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    background-color: rgb(179 189 207 / 50%);
+}
+
+.btnQuery:hover {
+    background-color: rgb(179 189 207 / 80%);
+    cursor: pointer;
+    scale: 1.1;
+    transition: scale 0.2s ease, background-color 0.2s ease;
+}
+
+/* -------------------------ELEMENTOS DINÁMICOS------------------------- */
+
+.dataTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1.1rem;
+}
+
+.tableBody tr:nth-child(even){
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+.tableBody tr:hover {
+    background-color: rgb(179 189 207 / 0.3);
+}
+
+.headerCell,
+.dataCell {
+    padding: .5rem;    
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.headerCell {
+    background-color: rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+}
